@@ -16,10 +16,12 @@ struct Cardify: ViewModifier {
             if isFaceUp {
                 shape.fill().foregroundColor(.white)
                 shape.strokeBorder(lineWidth: DrawingConstants.lineWidth)
-                content
             } else {
                 shape.fill()
             }
+            // need to keep the card content as the implicit view modifier animation
+            // only works on existing things
+            content.opacity(isFaceUp ? 1 : 0)
         }
     }
     
@@ -27,7 +29,6 @@ struct Cardify: ViewModifier {
         static let cornerRadius: CGFloat = 10
         static let lineWidth: CGFloat = 3
     }
-        
 }
 
 extension View {
