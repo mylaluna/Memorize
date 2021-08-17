@@ -11,7 +11,7 @@ struct Pie: Shape {
     
     var startAngle: Angle
     var endAngle: Angle
-    var closkWise: Bool = false
+    var clockWise: Bool = false
     
     // parameter rect is the space for us to draw
     func path(in rect: CGRect) -> Path {
@@ -30,7 +30,7 @@ struct Pie: Shape {
             radius: radius,
             startAngle: startAngle,
             endAngle: endAngle,
-            clockwise: !closkWise // the coordinate system is upside down
+            clockwise: !clockWise // the coordinate system is upside down
         )
         p.addLine(to: center)
         return p

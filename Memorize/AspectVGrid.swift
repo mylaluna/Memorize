@@ -25,7 +25,8 @@ struct AspectVGrid<Item, ItemView>: View where ItemView: View, Item: Identifiabl
             // LazyVGrid is no flexible in size so we use VStack to make everything
             // in GeometryReader flexible
             VStack {
-                let width: CGFloat = widthThatFits(itemCount: items.count, in: geometry.size, itemAspectRatio: aspectRatio)
+                let width: CGFloat = widthThatFits(
+                    itemCount: items.count, in: geometry.size, itemAspectRatio: aspectRatio)
                 LazyVGrid(columns: [adaptiveGridItem(width: width)], spacing: 0) {
                     ForEach(items) { item in
                         content(item).aspectRatio(aspectRatio, contentMode: .fit)
