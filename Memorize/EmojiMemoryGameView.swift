@@ -19,20 +19,38 @@ struct EmojiMemoryGameView: View {
     // @ViewBuilder can also be used to mark a parameter of a function
     // parameter type "a function that returns a View"
     var body: some View {
+        VStack {
+            gameBody
+            shuffle
+        }
+        .padding()
+    }
+    
+    var gameBody: some View {
         AspectVGrid(items: game.cards, aspectRatio: 2/3) { card in
             // following can be converted to be a function returns a ViewBuilder
             if card.isMatched && !card.isFaceUp {
-                Rectangle().opacity(0)
+                Color.clear
             } else {
                 CardView(card: card)
                     .padding(4)
                     .onTapGesture {
-                        game.choose(card)
+                        withAnimation(.easeInOut(duration: 3)) {
+                            game.choose(card)
+                        }
                     }
             }
         }
         .foregroundColor(.red)
-        .padding(.horizontal)
+    }
+    
+    var shuffle: some View {
+        Button("Shuffle") {
+            // always use explicit animation for intent
+            withAnimation {
+                game.shuffle()
+            }
+        }
     }
     
 //    @ViewBuilder

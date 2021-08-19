@@ -7,13 +7,24 @@
 
 import SwiftUI
 
-struct Cardify: ViewModifier {
-    var isFaceUp: Bool
+struct Cardify: AnimatableModifier {
+    
+    var rotation: Double // in degrees
+    
+    // tell AnimatableModifier what data do you want to animate
+    var animatableData: Double {
+        get { rotation }
+        set { rotation = newValue }
+    }
+    
+    init(isFaceUp: Bool) {
+        rotation = isFaceUp ? 0 : 180
+    }
     
     func body(content: Content) -> some View {
         ZStack {
             let shape = RoundedRectangle(cornerRadius: DrawingConstants.cornerRadius)
-            if isFaceUp {
+            if rotation < 90 {
                 shape.fill().foregroundColor(.white)
                 shape.strokeBorder(lineWidth: DrawingConstants.lineWidth)
             } else {
@@ -21,8 +32,12 @@ struct Cardify: ViewModifier {
             }
             // need to keep the card content as the implicit view modifier animation
             // only works on existing things
-            content.opacity(isFaceUp ? 1 : 0)
+            content.opacity(rotation < 90 ? 1 : 0)
         }
+        .rotation3DEffect(
+            Angle.degrees(rotation),
+            axis: (0, 1, 0)
+        )
     }
     
     private struct DrawingConstants {
